@@ -1,0 +1,20 @@
+.section{
+    display: flex;
+}
+.container1,.container2{   
+    height: 500px;
+    width: 400px;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1;
+    margin-top: 100px;
+    color: white;
+    text-align: start;
+}
+.container1{
+    margin-left: 250px;
+    background: url('../public/container-bg.webp');
+}
+.container1 h1 h4,.container2 h1 h4{
+    color: white;
+    text-align: end;
+}
