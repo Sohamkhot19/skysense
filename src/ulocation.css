@@ -1,7 +1,8 @@
 .section{
     display: flex;
+    flex-direction: row;
 }
-.container1,.container2{   
+.container1{   
     height: 500px;
     width: 400px;
     background: rgba(0, 0, 0, 0.8);
@@ -10,12 +11,25 @@
     color: white;
     text-align: start;
 }
-.container1{
+.container1 {
     margin-left: 250px;
-    background: url('../public/city.jpg');
-    /* background-position: center; */
-    background-size: cover;
+    position: relative;
 }
+
+.container1::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('../public/container-bg.webp');
+    background-position: end;
+    background-size: cover;
+    opacity: 0.7; /* Adjust the opacity value (0 to 1) for the image */
+    z-index: -1; /* Ensure the pseudo-element is behind the content */
+}
+
 #city,#country{
     color: #fff;
     padding: 5px;
@@ -46,15 +60,13 @@
 
 .datetime-content{
     display: flex;
-    margin-top: 250px;
+    margin-top: 50px;
     padding: 10px;
 }
-.datetime-content #degree{
-    flex: 1;
-    text-align: end;
+#degree{
     font-size: 50px;
     padding: 5px;
-    margin-top: 25px;
+ margin: 0;
 }
 .datetime-content #date{
     color: #c7c7c7;
@@ -66,52 +78,9 @@
     letter-spacing: 5px;
     margin-left: 15px;
 }
-.container2 svg{
+.weather-info{
     margin-left: 150px;
 }
-.container2 .weather-type{
-    margin-left: 150px;
-    margin-top: 10px;
-    font-size: 30px;
+.weather-info .weather-type{
+    margin: 10px;
 }
-form {
-    background: transparent;
-    width: 240px;
-    height: 24px;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-left: 50px; 
-    /* margin-right: 5px; 
-    margin-top: 5px; */
-    border-bottom: 1px solid white;
-    
-  }
-  
-  input {
-    all: unset;
-    font: 16px system-ui;
-    color: #fff;
-    height: 100%;
-    width: 180px;
-    padding: 10px; /* Adjusted padding values */
-    box-sizing: border-box; /* Include padding in the width calculation */
-    /* margin-left: 100%; */
-    
-  }
-  
-  ::placeholder {
-    color: #fff;
-    opacity: 0.7;
-  }
-  
-  
-  form #search-icon{
-    color: #fff;
-    fill: currentColor;
-    /* width: 35px;
-    height: 35px; */
-    padding: 10px;
-    margin: 0;
-  }
