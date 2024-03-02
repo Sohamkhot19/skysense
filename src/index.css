@@ -1,5 +1,5 @@
 body {
-  background: url('/public/body.jpg');
+  background: url('/public/background.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position:center;
@@ -11,7 +11,7 @@ body {
   align-items: center;
 }
 .overlay {
-  opacity: .4;
+  opacity: .2;
   background-color: black;
   position: absolute;
   left: 0; top: 0; 
