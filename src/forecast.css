@@ -47,17 +47,17 @@ form {
     padding: 10px;
     margin: 0;
   }
-  .weather-highlights{
+  .search-weather{
     display: flex;
     justify-content: space-evenly;
-    margin: 10px;
+    margin: 5px;
     margin-top: 20px;
     flex-wrap: wrap;
   }
-  .weather-highlights .temp{
+  .weather-highlights .temp {
     background: #161616;
     height: 150px;
-    width: 150px;
+    width: 150px; /* Set width to 50% with margin between elements */
     margin: 5px;
   }
   .weather-highlights .temp p{

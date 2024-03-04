@@ -1,53 +1,132 @@
-import React, { Component } from 'react'
+import React, { Component} from 'react'
 import './forecast.css'
+import axios from "axios";
+import apiKeys from "./apikeys";
+
+const defaults = {
+  color: "white",
+  size: 112,
+  animate: true,
+};
 export class Forecast_container extends Component {
+ constructor(props){
+  super(props);
+  this.state={
+    query: '',
+    error: '',
+    weather: {},
+  };
+  this.setQuery = this.setQuery.bind(this);
+  this.setError = this.setError.bind(this);
+  this.setWeather = this.setWeather.bind(this);
+ }
+ 
+ setQuery = (value) => {
+  this.setState({ query: value });
+};
+
+setError = (message) => {
+  this.setState({ error: message });
+};
+
+setWeather = (data) => {
+  this.setState({ weather: data });
+};
+
+
+  search = (city) => {
+    axios
+      .get(
+        `${apiKeys.base}weather?q=${city != "[object Object]" ? city :this.state.query}&units=metric&APPID=${apiKeys.key}`
+      )
+      .then((response) => {
+        this.setWeather(response.data);
+        this.setQuery("");
+      })
+      .catch( (error) => {
+        console.log(error);
+        this.setWeather({});
+        this.setQuery("");
+        this.setError({ message: "Not Found", query: this.state.query });
+      });
+  };
+  
+  componentDidMount() {
+    this.search('Delhi');
+  }
+
   render() {
+    const { weather, error } = this.state;
     return (
+      
       <>
+      
         <div className="container2">
         <p style={{textAlign:'center',margin:'2px'}}>Weather Highlights</p>
             <div className="search-box">
             <form id="form" role="search">
-            <input type="search" id="query" name="q"
+            <input type="text" id="query" name="q"
              placeholder="Search any city"
-             aria-label="Search through site content"/>
-            <svg xmlns="http://www.w3.org/2000/svg" id='search-icon' width="35px" height="35px" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
-              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-            </svg>
+             aria-label="Search through site content"
+             onChange={(e) => this.setQuery(e.target.value)}
+             value={this.state.query}/>
+            <i class="bi bi-search" onClick={this.search}></i>
           </form>
         </div>
         <div className="result-city" style={{display:'flex',justifyContent:'center',textAlign:'center',margin:'20px'}}>
-        <p>london | UK </p>
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clouds-fill" viewBox="0 0 16 16">
-        <path d="M11.473 9a4.5 4.5 0 0 0-8.72-.99A3 3 0 0 0 3 14h8.5a2.5 2.5 0 1 0-.027-5"/>
-        <path d="M14.544 9.772a3.5 3.5 0 0 0-2.225-1.676 5.5 5.5 0 0 0-6.337-4.002 4.002 4.002 0 0 1 7.392.91 2.5 2.5 0 0 1 1.17 4.769z"/>
-        </svg>
+        <p>{weather.name && weather.sys.country ? (
+    <p>{weather.name} | {weather.sys.country}</p>
+  ) : (
+    <p>{error.query} {error.message}</p>
+  )}</p>
         </div>
         
         <div className="weather-highlights">
-            
-            <div className="temp">
+          {weather && typeof weather.main !== 'undefined' ? (
+            <div className='search-weather'>
+              <div className="temp">
                 <p>Temperature</p>
-                <p className='temp-value'>32°c</p>
-                <p>cloudy</p>
+                <p className="temp-value">
+                  {Math.round(weather.main.temp)}°c 
+                </p>
+                <p style={{fontSize:'22px'}}>{weather.weather[0].main}</p>
+              </div>
+              <div className="temp">
+              <p>Wind Speed</p>
+              <p className="temp-value">{Math.round(weather.wind.speed)}</p>
+              <p>km/h</p>
             </div>
             <div className="temp">
-                <p>Wind Speed</p>
-                <p className='temp-value'>4.3</p>
-                <p>km/h</p>
+              <p>Humidity</p>
+              <p className="temp-value">{Math.round(weather.main.humidity)}%</p>
+              <div
+                className="progress"
+                role="progressbar"
+                aria-label="Example with label"
+                aria-valuenow={Math.round(weather.main.humidity)}
+                aria-valuemin="0"
+                aria-valuemax="100"
+                style={{ height: '5px', margin: '10px' }}
+              >
+                <div
+                  className="progress-bar"
+                  style={{ width: `${Math.round(weather.main.humidity)}%` }}
+                ></div>
+              </div>
             </div>
             <div className="temp">
-                <p>Humidity</p>
-                <p className='temp-value'>50%</p>
-                <div className="progress" role="progressbar" aria-label="Example with label" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style={{height:'5px',margin:'10px'}}>
-                    <div className="progress-bar" style={{width:'50%'}}></div>
-                </div>
+              <p>Visibility</p>
+              <p className="temp-value">{Math.round(weather.visibility)}</p>
+              <p>miles</p>
             </div>
+              
+            </div>
+          ) : (
             <div className="temp">
-                <p>Visibility</p>
-                <p className='temp-value'>1</p>
-                <p>miles</p>
+              <p>{error.query}</p>
+              <p>{error.message}</p>
             </div>
+          )}
         </div>
 
           </div>

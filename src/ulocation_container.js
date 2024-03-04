@@ -80,12 +80,12 @@ export class ulocation_container extends Component {
         this.setState({ photo: image.default, color: "white" });
       });
     }
-    if (currentHour >= 20 && currentHour < 0) {
+    if (currentHour >= 20 && currentHour < 24) {
       import("./early-night.jpg").then((image) => {
         this.setState({ photo: image.default, color: "white" });
       });
     }
-    if (currentHour >= 0 && currentHour < 5) {
+    else{
       import("./night.jpg").then((image) => {
         this.setState({ photo: image.default, color: "white" });
       });
@@ -212,7 +212,7 @@ export class ulocation_container extends Component {
                   color: `${this.state.color}`,
                   backgroundPosition: "center",
                   backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
+                  // backgroundRepeat: "no-repeat",
                 }}
               >
                 <h1 id="city" style={{ color: `${this.state.color}` }}>
